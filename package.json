@@ -1,0 +1,27 @@
+{
+  "name": "Quotet",
+  "version": "1.0.0",
+  "description": "Open-Source quote finder, and views it for you.",
+  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snaildos/Quotet.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "build": "electron-builder build --win --publish never",
+    "deploy": "electron-builder build --win --publish always"
+  },
+  "author": "SnailDOS",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "5.0.13",
+    "electron-builder": "^20.40.2"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "jquery": "^3.6.0",
+    "electron-updater": "^4.0.6"
+  }
+}

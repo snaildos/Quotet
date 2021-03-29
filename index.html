@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<head>
+  <script>
+    window.jQuery = window.$ = require('jquery');
+    const axios = require('axios')
+</script>
+<script src="./lib/confetti.min.js"></script>
+  <link rel="icon" href="quotet.png">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <title>Quotet</title>
+  <style>
+    
+    html, body {
+  width: 100%;
+  height:100%;
+}
+
+.center { margin: 0 auto; width: 400px; }
+
+h1  {
+  color: black;
+}
+
+body {
+
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+    #notification {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 200px;
+      padding: 20px;
+      border-radius: 5px;
+      background-color: white;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+    .hidden {
+      display: none;
+    }
+
+    .hiddentext {
+      text-indent: -9999px; 
+    }
+
+    .settings {
+  position: absolute;
+  top: 30px;
+  right: 16px;
+  font-size: 18px;
+}
+
+.nowplay  {
+  font-size: 25px;
+}
+  </style>
+</head>
+<body>  
+  <h1 class="w3-center">Quotet</h1>
+  <button type="button" class="settings" data-toggle="modal" data-target="#myModal">Settings</button>
+  <h3 class="w3-center">Powered by <b>Quotable API</b></h3>
+
+  <p id="version" class="w3-center"></p>
+  <div id="notification" class="hidden">
+    <p id="message"></p>
+    <button id="close-button" onClick="closeNotification()">
+      Close
+    </button>
+    <button id="restart-button" onClick="restartApp()" class="hidden">
+      Restart
+    </button>
+  </div>
+  <script>
+    const { ipcRenderer } = require('electron');
+    const version = document.getElementById('version');
+    const notification = document.getElementById('notification');
+    const message = document.getElementById('message');
+    const restartButton = document.getElementById('restart-button');
+    
+    ipcRenderer.send('app_version');
+    ipcRenderer.on('app_version', (event, arg) => {
+      ipcRenderer.removeAllListeners('app_version');
+      version.innerText = 'Version ' + arg.version;
+    });
+
+    ipcRenderer.on('update_available', () => {
+      ipcRenderer.removeAllListeners('update_available');
+      message.innerText = 'A new update is available. Downloading now...';
+      notification.classList.remove('hidden');
+    });
+
+    ipcRenderer.on('update_downloaded', () => {
+      ipcRenderer.removeAllListeners('update_downloaded');
+      message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
+      restartButton.classList.remove('hidden');
+      notification.classList.remove('hidden');
+    });
+
+    function closeNotification() {
+      notification.classList.add('hidden');
+    }
+    
+    function restartApp() {
+      ipcRenderer.send('restart_app');
+    }
+  </script>
+<p>
+</p>
+    <p id='nowPlaying' class="nowplay w3-center">Fetching...</p>
+<script>
+   setInterval(()=>{
+    axios.get('http://api.quotable.io/random').then((value) => {
+      document.getElementById('nowPlaying').innerText = value.data.content || 'Nothing'
+    })
+  },9000);
+</script>
+
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"><h2>Quotet Settings</h2></h4>
+          </div>
+          <div class="modal-body">
+            <h4>Please click what settings you want too change.</h4>
+            <h1 class="hiddentext">
+hi
+</h1>
+</body>
+</html>
